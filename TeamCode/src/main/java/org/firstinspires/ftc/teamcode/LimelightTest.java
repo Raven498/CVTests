@@ -53,6 +53,20 @@ public class LimelightTest extends LinearOpMode {
     boolean pickup;
     private Limelight3A limelight;
 
+    public boolean x_range_check(LLResult result){
+        if(result.getTx() <= x_cam_pix_max &&  result.getTx() >= x_cam_pix_min){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean y_range_check(LLResult result){
+        if(result.getTy() <= y_cam_pix_max &&  result.getTy() >= y_cam_pix_min){
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
@@ -76,7 +90,7 @@ public class LimelightTest extends LinearOpMode {
                     telemetry.addData("ANGLE: ", "0");
 
                     //POSITIONAL CHECK
-                    if(blueWideResult.getTx() <= x_cam_pix_max &&  blueWideResult.getTx() >= x_cam_pix_min){
+                    if(x_range_check(blueWideResult) && y_range_check(blueWideResult)){
                         pickup = true;
                     } else{
                         pickup = false;
@@ -99,7 +113,7 @@ public class LimelightTest extends LinearOpMode {
                     telemetry.addData("ANGLE: ", "90");
 
                     //POSITIONAL CHECK
-                    if(blueTallResult.getTx() <= x_cam_pix_max &&  blueTallResult.getTx() >= x_cam_pix_min){
+                    if(x_range_check(blueTallResult) && y_range_check(blueTallResult)){
                         pickup = true;
                     } else{
                         pickup = false;
@@ -121,7 +135,7 @@ public class LimelightTest extends LinearOpMode {
                     telemetry.addData("ANGLE: ", "0");
 
                     //POSITIONAL CHECK
-                    if(redWideResult.getTx() <= x_cam_pix_max &&  redWideResult.getTx() >= x_cam_pix_min){
+                    if(x_range_check(redWideResult) && y_range_check(redWideResult)){
                         pickup = true;
                     } else{
                         pickup = false;
@@ -143,11 +157,12 @@ public class LimelightTest extends LinearOpMode {
                     telemetry.addData("ANGLE: ", "90");
 
                     //POSITIONAL CHECK
-                    if(redTallResult.getTx() <= x_cam_pix_max &&  redTallResult.getTx() >= x_cam_pix_min){
+                    if(x_range_check(redTallResult) && y_range_check(redTallResult)){
                         pickup = true;
                     } else{
                         pickup = false;
                     }
+
                     telemetry.addData("tx", redTallResult.getTx());
                     telemetry.addData("ty", redTallResult.getTy());
                     telemetry.addData("ta", redTallResult.getTa());
